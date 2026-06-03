@@ -1,36 +1,892 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-<h1 align="Center">MY BLOG!</h1>
-<!--<ul>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  <li><a href="Learning_algorithms.slides.html">Learning_algorithms</a></li></p>
-    <li><a href="RandomForest.slides.html">RandomForest</a></li>
-    <li><a href="GBM.slides.html">GBM</a></li>
-    <li><a href="Types of GBMs.slides.html">Types of GBMs</a></li>
-</ul>-->
-<dl>
-  <dt><a href="mlvajra.html">MLVajra</a></dt>
-  <dd>Overview of what,why and how mlvajra helps MAchine learning deployment</dd>
-  <dt><a href="Airflow_presentation.html">Airflow Tutorial</a></dt>
-  <dd>Airflow under the hood -Brief overview of Airflow</dd>
-	
-  <dt><a href="Learning_algorithms.slides.html">Learning_algorithms</a></dt>
-  <dd>What are learning Algorithms ,how it differs from Normal Programatic Algorithms(Example :Traveling sales man,knapsack ,Dijistra etc)</dd>
-  <dt><a href="RandomForest.slides.html">RandomForest</a></dt>
-  <dd>Why forest instead of Tree!</dd>
-  <dt><a href="GBM.slides.html">GBM</a></dt>
-  <dd>How Gradient descent helps the Decision Tree</dd>
-  <dt><a href="Types_of_GBMs.slides.html">Types of GBMs</a></dt>
-  <dd>Types of GBM's and their Advantages</dd>
-  <dt><a href="recommendation_assignment.html">Recommendation Assignemnt</a></dt>
-  <dd>Documentaion of Recommendation Assignemnt</dd>
-  
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gurunath L V — Engineering Log</title>
+  <meta name="description" content="Gurunath L V — generalist engineer working across data, ML, platform, AI and LLM inference. Currently building inference infrastructure at IO.net. Curious about web3 and DePIN.">
+  <meta name="author" content="Gurunath L V">
 
-</dl>
+  <!-- Social preview -->
+  <meta property="og:title" content="Gurunath L V — Engineering Log">
+  <meta property="og:description" content="Generalist engineer across data, ML, platform, AI & inference. Billion-row pipelines to the inside of an LLM's KV cache.">
+  <meta property="og:type" content="website">
 
-  </body>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink:    #08090c;
+      --bg:     #0b0c10;
+      --panel:  #111319;
+      --panel2: #15171e;
+      --line:   #23262f;
+      --fog:    #80838f;
+      --silver: #b6b9c4;
+      --bone:   #ece9e1;
+      --ember:  #ff6a2b;   /* GPU thermal glow */
+      --ember2: #ff9152;
+      --steel:  #5fd3c8;   /* cool secondary */
+      --steel2: #8fe7df;
+      --glow-x: 50%;
+      --glow-y: 0%;
+      --serif: "Fraunces", Georgia, serif;
+      --mono: "JetBrains Mono", ui-monospace, monospace;
+      --sans: "Hanken Grotesk", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--bone);
+      font-family: var(--sans);
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* ---------- Background layers ---------- */
+    #mesh {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.55;
+    }
+
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(620px circle at var(--glow-x) var(--glow-y),
+          rgba(255,106,43,0.16), transparent 60%),
+        radial-gradient(900px circle at 85% 8%,
+          rgba(95,211,200,0.08), transparent 55%),
+        radial-gradient(1100px circle at 12% 92%,
+          rgba(255,106,43,0.07), transparent 60%);
+      transition: background 0.4s ease;
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.05;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 0 240px 60px rgba(0,0,0,0.7);
+    }
+
+    .shell { position: relative; z-index: 2; }
+
+    /* ---------- Status bar ---------- */
+    .statusbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem clamp(1.1rem, 4vw, 3rem);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      color: var(--fog);
+      background: linear-gradient(to bottom, rgba(8,9,12,0.92), rgba(8,9,12,0));
+      backdrop-filter: blur(6px);
+    }
+    .statusbar .left { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
+    .statusbar .path { color: var(--silver); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .statusbar .path b { color: var(--ember2); font-weight: 500; }
+    .pulse {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--steel);
+      box-shadow: 0 0 0 0 rgba(95,211,200,0.6);
+      animation: pulse 2.4s infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(95,211,200,0.55); }
+      70%  { box-shadow: 0 0 0 7px rgba(95,211,200,0); }
+      100% { box-shadow: 0 0 0 0 rgba(95,211,200,0); }
+    }
+    .statusbar .right { display: flex; gap: 1.1rem; white-space: nowrap; }
+    .statusbar .right a { color: var(--fog); text-decoration: none; transition: color 0.2s; }
+    .statusbar .right a:hover { color: var(--ember2); }
+    @media (max-width: 720px) { .statusbar .right { display: none; } }
+
+    /* ---------- Layout ---------- */
+    .wrap {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 clamp(1.1rem, 4vw, 3rem);
+    }
+
+    section { position: relative; }
+
+    .marker {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ember);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1.6rem;
+    }
+    .marker::before {
+      content: "";
+      width: 26px; height: 1px;
+      background: var(--ember);
+      opacity: 0.7;
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 7rem 0 5rem;
+    }
+    .hero .kicker {
+      font-family: var(--mono);
+      font-size: clamp(0.68rem, 1.4vw, 0.78rem);
+      letter-spacing: 0.18em;
+      color: var(--steel);
+      text-transform: uppercase;
+      margin-bottom: 1.6rem;
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-weight: 360;
+      font-size: clamp(3.1rem, 12vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      color: var(--bone);
+      margin-bottom: 1.6rem;
+    }
+    .hero h1 .it {
+      font-style: italic;
+      font-weight: 340;
+      background: linear-gradient(120deg, var(--ember), var(--ember2) 55%, var(--steel));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero .lede {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.25rem, 2.6vw, 1.9rem);
+      line-height: 1.4;
+      color: var(--silver);
+      max-width: 46ch;
+      margin-bottom: 2.2rem;
+    }
+    .hero .lede em { font-style: italic; color: var(--bone); }
+
+    .domains {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-bottom: 2.6rem;
+      max-width: 60ch;
+    }
+    .chip {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.02em;
+      color: var(--silver);
+      padding: 0.4rem 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 100px;
+      background: rgba(255,255,255,0.015);
+      transition: border-color 0.25s, color 0.25s, transform 0.25s;
+    }
+    .chip:hover { border-color: var(--ember); color: var(--bone); transform: translateY(-2px); }
+
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      padding: 0.85rem 1.4rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      transition: transform 0.2s, box-shadow 0.25s, background 0.25s, border-color 0.25s;
+    }
+    .btn .arr { transition: transform 0.25s; }
+    .btn:hover .arr { transform: translateX(4px); }
+    .btn-primary {
+      background: var(--ember);
+      color: #1a0a02;
+      font-weight: 500;
+      box-shadow: 0 8px 30px -8px rgba(255,106,43,0.55);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px -8px rgba(255,106,43,0.7); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--silver);
+      border: 1px solid var(--line);
+    }
+    .btn-ghost:hover { border-color: var(--steel); color: var(--bone); transform: translateY(-2px); }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 1.8rem; left: 0;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--fog);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .scroll-hint .bar {
+      width: 1px; height: 34px;
+      background: linear-gradient(to bottom, var(--ember), transparent);
+      animation: drop 2s infinite;
+    }
+    @keyframes drop { 0%,100% { opacity: 0.3; transform: scaleY(0.6); } 50% { opacity: 1; transform: scaleY(1); } }
+
+    /* ---------- Section frame ---------- */
+    .block { padding: 6rem 0; border-top: 1px solid var(--line); }
+    .block .head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 3rem;
+    }
+    .block .head h2 {
+      font-family: var(--serif);
+      font-weight: 360;
+      font-size: clamp(1.8rem, 4.5vw, 3rem);
+      letter-spacing: -0.015em;
+      color: var(--bone);
+      line-height: 1.05;
+    }
+    .block .head .idx {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--fog);
+      letter-spacing: 0.1em;
+    }
+    .lead-p {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+      line-height: 1.5;
+      color: var(--silver);
+      max-width: 60ch;
+    }
+    .lead-p em { font-style: italic; color: var(--bone); }
+
+    /* ---------- Domains grid ---------- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .cell {
+      background: var(--panel);
+      padding: 2rem 1.8rem;
+      transition: background 0.3s;
+      position: relative;
+    }
+    .cell:hover { background: var(--panel2); }
+    .cell .n { font-family: var(--mono); font-size: 0.7rem; color: var(--ember); letter-spacing: 0.1em; }
+    .cell h3 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 1.45rem;
+      margin: 0.7rem 0 0.6rem;
+      color: var(--bone);
+    }
+    .cell p { font-size: 0.92rem; color: var(--fog); line-height: 1.55; }
+    .cell .tags { margin-top: 1rem; font-family: var(--mono); font-size: 0.68rem; color: var(--steel); letter-spacing: 0.02em; }
+
+    /* ---------- Now / IO.net ---------- */
+    .now-card {
+      background: linear-gradient(160deg, var(--panel2), var(--panel));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: clamp(1.8rem, 4vw, 3rem);
+      position: relative;
+      overflow: hidden;
+    }
+    .now-card::before {
+      content: "";
+      position: absolute;
+      top: -40%; right: -10%;
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, rgba(255,106,43,0.16), transparent 70%);
+      pointer-events: none;
+    }
+    .now-top { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+    .badge-live {
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.12em;
+      color: var(--steel);
+      border: 1px solid rgba(95,211,200,0.35);
+      border-radius: 100px;
+      padding: 0.3rem 0.7rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .now-top .role { font-family: var(--mono); font-size: 0.78rem; color: var(--silver); }
+    .now-top .role b { color: var(--ember2); font-weight: 500; }
+    .now-card h3 {
+      font-family: var(--serif);
+      font-weight: 360;
+      font-size: clamp(1.5rem, 3.5vw, 2.3rem);
+      line-height: 1.25;
+      color: var(--bone);
+      margin-bottom: 1.6rem;
+      max-width: 30ch;
+    }
+    .feat-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.1rem 2rem; }
+    .feat {
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--line);
+    }
+    .feat .dot { color: var(--ember); font-family: var(--mono); font-size: 0.8rem; line-height: 1.5; flex-shrink: 0; }
+    .feat .txt { font-size: 0.92rem; color: var(--silver); line-height: 1.5; }
+    .feat .txt b { color: var(--bone); font-weight: 600; }
+
+    /* ---------- Timeline ---------- */
+    .tl { display: flex; flex-direction: column; }
+    .tl-row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 1.5rem;
+      padding: 1.6rem 0;
+      border-top: 1px solid var(--line);
+      align-items: baseline;
+      transition: padding-left 0.3s;
+    }
+    .tl-row:hover { padding-left: 0.6rem; }
+    .tl-row .yr { font-family: var(--mono); font-size: 0.74rem; color: var(--fog); letter-spacing: 0.05em; }
+    .tl-row .co { font-family: var(--serif); font-size: 1.35rem; color: var(--bone); font-weight: 400; }
+    .tl-row .co span { color: var(--ember2); }
+    .tl-row .ds { font-size: 0.92rem; color: var(--fog); margin-top: 0.35rem; }
+    @media (max-width: 600px) { .tl-row { grid-template-columns: 1fr; gap: 0.4rem; } }
+
+    /* ---------- Open source ---------- */
+    .os-wrap { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+    .os {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--silver);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      background: var(--panel);
+      transition: transform 0.2s, border-color 0.25s, color 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .os small { color: var(--fog); font-size: 0.66rem; }
+    .os:hover { transform: translateY(-3px); border-color: var(--steel); color: var(--bone); }
+    .os .star { color: var(--ember); }
+
+    /* ---------- Archive / blog ---------- */
+    .notice {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      background: rgba(95,211,200,0.05);
+      border: 1px solid rgba(95,211,200,0.25);
+      border-radius: 12px;
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 2.6rem;
+      font-size: 0.92rem;
+      color: var(--silver);
+    }
+    .notice .tag {
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      color: var(--steel);
+      border: 1px solid rgba(95,211,200,0.35);
+      padding: 0.25rem 0.6rem;
+      border-radius: 100px;
+      flex-shrink: 0;
+    }
+    .notice a { color: var(--steel2); text-decoration: none; border-bottom: 1px solid rgba(143,231,223,0.4); }
+    .notice a:hover { color: var(--bone); }
+
+    .posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+    .post {
+      display: block;
+      text-decoration: none;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s, background 0.25s;
+    }
+    .post::after {
+      content: "→";
+      position: absolute;
+      top: 1.3rem; right: 1.4rem;
+      color: var(--fog);
+      font-family: var(--mono);
+      transition: transform 0.25s, color 0.25s;
+    }
+    .post:hover { transform: translateY(-4px); border-color: var(--ember); background: var(--panel2); }
+    .post:hover::after { color: var(--ember); transform: translate(3px,-3px); }
+    .post .cat { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.12em; color: var(--ember); text-transform: uppercase; }
+    .post h4 { font-family: var(--serif); font-weight: 400; font-size: 1.3rem; color: var(--bone); margin: 0.7rem 0 0.5rem; padding-right: 1.5rem; }
+    .post p { font-size: 0.88rem; color: var(--fog); line-height: 1.5; }
+
+    /* ---------- Footer ---------- */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 4.5rem 0 3rem;
+      position: relative;
+    }
+    .foot-grid { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+    .foot-grid .big {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.6rem, 5vw, 2.8rem);
+      color: var(--bone);
+      line-height: 1.2;
+      max-width: 20ch;
+    }
+    .socials { display: flex; flex-direction: column; gap: 0.7rem; }
+    .socials a {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--silver);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .socials a:hover { color: var(--ember2); transform: translateX(4px); }
+    .socials a .lbl { color: var(--fog); width: 70px; display: inline-block; }
+    .colophon {
+      margin-top: 3.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--fog);
+      letter-spacing: 0.04em;
+    }
+
+    /* ---------- Reveal animations ---------- */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.8s cubic-bezier(.2,.7,.2,1), transform 0.8s cubic-bezier(.2,.7,.2,1); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    .hero .anim { opacity: 0; transform: translateY(20px); animation: rise 0.9s cubic-bezier(.2,.7,.2,1) forwards; }
+    .hero .d1 { animation-delay: 0.1s; }
+    .hero .d2 { animation-delay: 0.25s; }
+    .hero .d3 { animation-delay: 0.42s; }
+    .hero .d4 { animation-delay: 0.58s; }
+    .hero .d5 { animation-delay: 0.72s; }
+    .hero .d6 { animation-delay: 0.86s; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+      .hero .anim { opacity: 1; transform: none; }
+      #mesh { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="mesh"></canvas>
+  <div class="bg-glow"></div>
+  <div class="grain"></div>
+  <div class="vignette"></div>
+
+  <!-- Status bar -->
+  <div class="statusbar">
+    <div class="left">
+      <span class="pulse"></span>
+      <span class="path"><b>~/gurunath</b> &nbsp;·&nbsp; senior ml · data · inference engineer &nbsp;·&nbsp; chennai, in</span>
+    </div>
+    <div class="right">
+      <a href="https://github.com/rajagurunath" target="_blank" rel="noopener">github</a>
+      <a href="https://www.linkedin.com/in/rajagurunath/" target="_blank" rel="noopener">linkedin</a>
+      <a href="https://x.com/rajaguru95" target="_blank" rel="noopener">x</a>
+      <a href="https://guruengineering.substack.com/" target="_blank" rel="noopener">substack</a>
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="wrap">
+
+      <!-- HERO -->
+      <header class="hero" id="top">
+        <div class="kicker anim d1">// GENERALIST ENGINEER &nbsp;·&nbsp; 8+ YEARS &nbsp;·&nbsp; DATA → ML → PLATFORM → INFERENCE</div>
+        <h1 class="anim d2">Gurunath<br><span class="it">L V</span></h1>
+        <p class="lede anim d3">
+          I build the machinery that makes data and intelligence <em>move</em> — from
+          billion-row pipelines to the inside of an LLM's KV&nbsp;cache.
+        </p>
+
+        <div class="domains anim d4">
+          <span class="chip">Data Engineering</span>
+          <span class="chip">ML &amp; MLOps</span>
+          <span class="chip">Platform &amp; Distributed Systems</span>
+          <span class="chip">AI &amp; LLM Systems</span>
+          <span class="chip">Inference Engineering</span>
+          <span class="chip">Web3 &amp; DePIN</span>
+        </div>
+
+        <div class="cta-row anim d5">
+          <a class="btn btn-primary" href="#archive">Read the archive <span class="arr">→</span></a>
+          <a class="btn btn-ghost" href="https://guruengineering.substack.com/" target="_blank" rel="noopener">New writing on Substack <span class="arr">↗</span></a>
+        </div>
+
+        <div class="scroll-hint anim d6"><span class="bar"></span> SCROLL</div>
+      </header>
+
+      <!-- ABOUT -->
+      <section class="block" id="about">
+        <div class="head reveal">
+          <h2>The short version</h2>
+          <span class="idx">01 / WHO</span>
+        </div>
+        <p class="lead-p reveal">
+          I'm a <em>generalist by instinct</em>. Over the last eight years I've moved up and down
+          the stack — wrangling <em>billions of records a day</em> through data lakehouses, shipping
+          ML systems to production, building the platforms that hold them up, and lately optimizing
+          the guts of <em>LLM inference</em>. I'm drawn to the hard, ambiguous problems that live
+          <em>between disciplines</em> — the ones where nobody's quite sure whose job it is. Right now
+          that means inference infrastructure at IO.net, and a growing fascination with <em>web3, DePIN,
+          and what happens when compute itself becomes a marketplace.</em>
+        </p>
+      </section>
+
+      <!-- DOMAINS -->
+      <section class="block" id="work">
+        <div class="head reveal">
+          <h2>What I work on</h2>
+          <span class="idx">02 / DOMAINS</span>
+        </div>
+        <div class="grid">
+          <div class="cell reveal">
+            <span class="n">01</span>
+            <h3>Inference Engineering</h3>
+            <p>Squeezing latency and cost out of LLM serving — KV cache optimization, distributed cache offloading, disaggregated prefill / decode.</p>
+            <div class="tags">vLLM · Aibrix · LMCache</div>
+          </div>
+          <div class="cell reveal">
+            <span class="n">02</span>
+            <h3>Data Engineering</h3>
+            <p>Lakehouses and streaming frameworks moving 1–5B records/day at sub-second query latency, benchmarked to 100B.</p>
+            <div class="tags">Spark · ClickHouse · Iceberg · Trino</div>
+          </div>
+          <div class="cell reveal">
+            <span class="n">03</span>
+            <h3>ML &amp; MLOps</h3>
+            <p>End-to-end ML systems following MLOps best practices — research-to-production pipelines, retraining, model promotion.</p>
+            <div class="tags">PyTorch · XGBoost · MLflow · Ray</div>
+          </div>
+          <div class="cell reveal">
+            <span class="n">04</span>
+            <h3>AI &amp; LLM Systems</h3>
+            <p>RAG pipelines, MCP servers, and production AI agents with end-to-end observability, tool use, and fault tolerance.</p>
+            <div class="tags">LangChain · RAG · MCP · OpenRouter</div>
+          </div>
+          <div class="cell reveal">
+            <span class="n">05</span>
+            <h3>Platform &amp; Distributed</h3>
+            <p>Managed compute platforms on EMR, EKS and bare metal — Ray clusters, container-as-a-service, orchestration with Temporal.</p>
+            <div class="tags">Kubernetes · Ray · SkyPilot · AWS</div>
+          </div>
+          <div class="cell reveal">
+            <span class="n">06</span>
+            <h3>Web3 &amp; DePIN</h3>
+            <p>Block-reward systems for DePIN GPU suppliers — designing and A/B testing distribution formulas behind a token launch on Solana.</p>
+            <div class="tags">DePIN · Solana · token economics</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NOW -->
+      <section class="block" id="now">
+        <div class="head reveal">
+          <h2>Currently</h2>
+          <span class="idx">03 / NOW</span>
+        </div>
+        <div class="now-card reveal">
+          <div class="now-top">
+            <span class="badge-live"><span class="pulse"></span> ACTIVE</span>
+            <span class="role">Senior ML Software Engineer &amp; Data Research Analyst &nbsp;·&nbsp; <b>IO.net</b> &nbsp;·&nbsp; Feb 2024 → now</span>
+          </div>
+          <h3>Driving inference infrastructure for a decentralized GPU cloud.</h3>
+          <div class="feat-list">
+            <div class="feat"><span class="dot">▸</span><span class="txt"><b>Hosted &amp; fine-tuned</b> open LLMs (Qwen, GLM, DeepSeek, LLaMA) on vLLM + Aibrix for low-latency enterprise inference.</span></div>
+            <div class="feat"><span class="dot">▸</span><span class="txt"><b>KV cache optimization</b> &amp; distributed offloading to cut memory footprint and latency at scale.</span></div>
+            <div class="feat"><span class="dot">▸</span><span class="txt"><b>Disaggregated prefill–decode</b> cluster deployments improving TTFT and token throughput.</span></div>
+            <div class="feat"><span class="dot">▸</span><span class="txt">Integrated io-intelligence as a provider in <b>OpenRouter</b>, expanding ecosystem reach.</span></div>
+            <div class="feat"><span class="dot">▸</span><span class="txt">Built a <b>ChatGPT-style</b> unified interface — web search, image &amp; video gen, RAG.</span></div>
+            <div class="feat"><span class="dot">▸</span><span class="txt">Shipped an <b>MCP server</b> letting agents create &amp; manage GPU clusters programmatically.</span></div>
+            <div class="feat"><span class="dot">▸</span><span class="txt">Pioneered a <b>block-rewards system</b> for DePIN GPU suppliers behind the IO-COIN launch on Solana.</span></div>
+            <div class="feat"><span class="dot">▸</span><span class="txt">Contributed to the cloud platform — Ray clusters, CaaS, bare metal, SkyPilot marketplace integrations.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TIMELINE -->
+      <section class="block" id="track">
+        <div class="head reveal">
+          <h2>The track record</h2>
+          <span class="idx">04 / PATH</span>
+        </div>
+        <div class="tl">
+          <div class="tl-row reveal">
+            <span class="yr">2024 — now</span>
+            <div><div class="co">IO.net <span>· Inference &amp; DePIN</span></div><div class="ds">LLM inference infra, AI agents, and GPU-supplier reward systems for a decentralized compute network.</div></div>
+          </div>
+          <div class="tl-row reveal">
+            <span class="yr">2022 — 2025</span>
+            <div><div class="co">Chargebee <span>· Data Platform</span></div><div class="ds">Enterprise lakehouse &amp; streaming frameworks processing 1–5B records/day with sub-second latency.</div></div>
+          </div>
+          <div class="tl-row reveal">
+            <span class="yr">2021 — 2022</span>
+            <div><div class="co">Nike <span>· Platform Team</span></div><div class="ds">Managed big-data service on AWS EMR + Spark; org-wide job orchestration on EKS.</div></div>
+          </div>
+          <div class="tl-row reveal">
+            <span class="yr">2020 — 2021</span>
+            <div><div class="co">Mercedes-Benz <span>· Analytics</span></div><div class="ds">Built an analytics platform end to end — ingestion through interactive dashboards and PDF reporting.</div></div>
+          </div>
+          <div class="tl-row reveal">
+            <span class="yr">2017 — 2020</span>
+            <div><div class="co">Prodapt <span>· ML &amp; Data</span></div><div class="ds">Airflow ETL, streaming + batch systems, anomaly detection &amp; time-series forecasting in production.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- OPEN SOURCE -->
+      <section class="block" id="oss">
+        <div class="head reveal">
+          <h2>Out in the open</h2>
+          <span class="idx">05 / OSS</span>
+        </div>
+        <p class="lead-p reveal" style="margin-bottom:2.4rem;">Contributions and published packages across distributed computing and LLM tooling.</p>
+        <div class="os-wrap reveal">
+          <a class="os" href="https://github.com/BerriAI/litellm" target="_blank" rel="noopener"><span class="star">✦</span> LiteLLM <small>provider</small></a>
+          <a class="os" href="https://github.com/skypilot-org/skypilot" target="_blank" rel="noopener"><span class="star">✦</span> SkyPilot <small>IO Cloud</small></a>
+          <a class="os" href="https://github.com/dask-contrib/dask-sql" target="_blank" rel="noopener"><span class="star">✦</span> dask-sql <small>maintainer</small></a>
+          <a class="os" href="https://github.com/delta-io/delta" target="_blank" rel="noopener"><span class="star">✦</span> Delta Lake <small>CI/CD</small></a>
+          <a class="os" href="https://github.com/rajagurunath" target="_blank" rel="noopener"><span class="star">✦</span> Dask &amp; Ray</a>
+          <a class="os" href="https://github.com/rajagurunath" target="_blank" rel="noopener"><span class="star">✦</span> Trino LLM plugin</a>
+          <a class="os" href="https://github.com/rajagurunath" target="_blank" rel="noopener"><span class="star">✦</span> dask-deltalake</a>
+          <a class="os" href="https://github.com/rajagurunath" target="_blank" rel="noopener"><span class="star">✦</span> streamlit-reactflow</a>
+          <a class="os" href="https://github.com/rajagurunath" target="_blank" rel="noopener"><span class="star">✦</span> mlvajra</a>
+          <a class="os" href="https://github.com/rajagurunath" target="_blank" rel="noopener"><span class="star">✦</span> lakehouse-sharing</a>
+        </div>
+      </section>
+
+      <!-- ARCHIVE / BLOG -->
+      <section class="block" id="archive">
+        <div class="head reveal">
+          <h2>The archive</h2>
+          <span class="idx">06 / WRITING</span>
+        </div>
+        <div class="notice reveal">
+          <span class="tag">HEADS UP</span>
+          <span>These are <strong style="color:var(--bone)">older notes</strong> from my early ML days — kept here for the curious. Fresh, deeper writing is brewing over on <a href="https://guruengineering.substack.com/" target="_blank" rel="noopener">guruengineering.substack.com</a>. New posts coming soon.</span>
+        </div>
+        <div class="posts">
+          <a class="post reveal" href="mlvajra.html">
+            <span class="cat">MLOps</span>
+            <h4>MLVajra</h4>
+            <p>What, why &amp; how MLVajra helps take machine-learning models to deployment.</p>
+          </a>
+          <a class="post reveal" href="Airflow_presentation.html">
+            <span class="cat">Data Eng</span>
+            <h4>Airflow, Under the Hood</h4>
+            <p>A brief tour of how Apache Airflow really works beneath the DAGs.</p>
+          </a>
+          <a class="post reveal" href="Learning_algorithms.slides.html">
+            <span class="cat">Machine Learning</span>
+            <h4>Learning Algorithms</h4>
+            <p>How learning algorithms differ from classic programmatic ones — TSP, knapsack, Dijkstra and friends.</p>
+          </a>
+          <a class="post reveal" href="RandomForest.slides.html">
+            <span class="cat">Machine Learning</span>
+            <h4>Random Forest</h4>
+            <p>Why a forest beats a single tree — the intuition behind the ensemble.</p>
+          </a>
+          <a class="post reveal" href="GBM.slides.html">
+            <span class="cat">Machine Learning</span>
+            <h4>Gradient Boosting</h4>
+            <p>How gradient descent quietly teaches a decision tree to do better.</p>
+          </a>
+          <a class="post reveal" href="Types_of_GBMs.slides.html">
+            <span class="cat">Machine Learning</span>
+            <h4>Types of GBMs</h4>
+            <p>A field guide to gradient-boosting variants and where each one earns its keep.</p>
+          </a>
+          <a class="post reveal" href="recommendation_assignment.html">
+            <span class="cat">Machine Learning</span>
+            <h4>Recommendation Systems</h4>
+            <p>Notes and documentation from building a recommendation engine.</p>
+          </a>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer id="contact">
+        <div class="head reveal" style="margin-bottom:2.4rem;">
+          <span class="marker">07 / SAY HELLO</span>
+        </div>
+        <div class="foot-grid reveal">
+          <div class="big">Let's solve something complex together.</div>
+          <div class="socials">
+            <a href="https://github.com/rajagurunath" target="_blank" rel="noopener"><span class="lbl">github</span>@rajagurunath ↗</a>
+            <a href="https://www.linkedin.com/in/rajagurunath/" target="_blank" rel="noopener"><span class="lbl">linkedin</span>in/rajagurunath ↗</a>
+            <a href="https://x.com/rajaguru95" target="_blank" rel="noopener"><span class="lbl">x</span>@rajaguru95 ↗</a>
+            <a href="https://guruengineering.substack.com/" target="_blank" rel="noopener"><span class="lbl">substack</span>guruengineering ↗</a>
+            <a href="mailto:gurunathrajagopal@gmail.com"><span class="lbl">email</span>gurunathrajagopal@gmail.com ↗</a>
+          </div>
+        </div>
+        <div class="colophon">
+          <span>© <span id="yr"></span> Gurunath L V — built from scratch.</span>
+          <span>CHENNAI · TAMIL NADU · INDIA &nbsp;//&nbsp; 13.08°N, 80.27°E</span>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <script>
+    // ---- Year ----
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // ---- Pointer-reactive glow ----
+    window.addEventListener('pointermove', function (e) {
+      document.documentElement.style.setProperty('--glow-x', (e.clientX / window.innerWidth * 100) + '%');
+      document.documentElement.style.setProperty('--glow-y', (e.clientY / window.innerHeight * 100) + '%');
+    }, { passive: true });
+
+    // ---- Scroll reveal ----
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(function (el, i) {
+      el.style.transitionDelay = (Math.min(i % 6, 5) * 0.06) + 's';
+      io.observe(el);
+    });
+
+    // ---- Compute-node mesh ----
+    (function () {
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) return;
+      var canvas = document.getElementById('mesh');
+      var ctx = canvas.getContext('2d');
+      var w, h, dpr, nodes = [];
+
+      function size() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = canvas.width = window.innerWidth * dpr;
+        h = canvas.height = window.innerHeight * dpr;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        var count = Math.min(72, Math.floor((window.innerWidth * window.innerHeight) / 22000));
+        nodes = [];
+        for (var i = 0; i < count; i++) {
+          nodes.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.18 * dpr,
+            vy: (Math.random() - 0.5) * 0.18 * dpr,
+            r: (Math.random() * 1.3 + 0.6) * dpr,
+            ember: Math.random() < 0.28
+          });
+        }
+      }
+
+      function step() {
+        ctx.clearRect(0, 0, w, h);
+        var link = 130 * dpr;
+        for (var i = 0; i < nodes.length; i++) {
+          var n = nodes[i];
+          n.x += n.vx; n.y += n.vy;
+          if (n.x < 0 || n.x > w) n.vx *= -1;
+          if (n.y < 0 || n.y > h) n.vy *= -1;
+          for (var j = i + 1; j < nodes.length; j++) {
+            var m = nodes[j];
+            var dx = n.x - m.x, dy = n.y - m.y;
+            var d = Math.sqrt(dx * dx + dy * dy);
+            if (d < link) {
+              var a = (1 - d / link) * 0.32;
+              ctx.strokeStyle = 'rgba(120,130,150,' + a + ')';
+              ctx.lineWidth = 0.6 * dpr;
+              ctx.beginPath();
+              ctx.moveTo(n.x, n.y);
+              ctx.lineTo(m.x, m.y);
+              ctx.stroke();
+            }
+          }
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+          ctx.fillStyle = n.ember ? 'rgba(255,106,43,0.9)' : 'rgba(150,160,180,0.7)';
+          ctx.fill();
+        }
+        requestAnimationFrame(step);
+      }
+
+      size();
+      step();
+      var rt;
+      window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(size, 200); });
+    })();
+  </script>
+</body>
 </html>
