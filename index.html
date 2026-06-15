@@ -584,7 +584,7 @@
         </div>
 
         <div class="cta-row anim d5">
-          <a class="btn btn-primary" href="#archive">Read the archive <span class="arr">→</span></a>
+          <a class="btn btn-primary" href="#writing">Read recent writing <span class="arr">→</span></a>
           <a class="btn btn-ghost" href="https://guruengineering.substack.com/" target="_blank" rel="noopener">New writing on Substack <span class="arr">↗</span></a>
         </div>
 
@@ -730,11 +730,37 @@
         </div>
       </section>
 
+      <!-- RECENT WRITING -->
+      <section class="block" id="writing">
+        <div class="head reveal">
+          <h2>Recent writing</h2>
+          <span class="idx">06 / DEEP DIVES</span>
+        </div>
+        <p class="lead-p reveal" style="margin-bottom:2.4rem;">Three hands-on studies of Preferred Networks' PLaMo model family — speculative decoding, LoRA fine-tuning for function calling, and prefill/decode batch-scaling — all measured on a single laptop.</p>
+        <div class="posts">
+          <a class="post reveal" href="https://rajagurunath.github.io/pfn-plamo-inference-study/spec-decode-plamo2.html" target="_blank" rel="noopener">
+            <span class="cat">Inference · llama.cpp</span>
+            <h4>Speculative Decoding for PLaMo 2</h4>
+            <p>A measured negative result: draft-model and n-gram speculation for the Mamba-hybrid plamo-2-8b on Apple Silicon — plus a novel quantization bug found along the way.</p>
+          </a>
+          <a class="post reveal" href="https://rajagurunath.github.io/pfn-plamo-inference-study/tool-calling-plamo3.html" target="_blank" rel="noopener">
+            <span class="cat">Fine-Tuning · LoRA</span>
+            <h4>Teaching PLaMo 3 to Call Functions</h4>
+            <p>The first open-weights PLaMo with function calling — a LoRA on PFN's hidden control tokens, and two evaluation traps that took argument accuracy from 55% to 100%.</p>
+          </a>
+          <a class="post reveal" href="https://rajagurunath.github.io/pfn-plamo-inference-study/prefill-decode-study.html" target="_blank" rel="noopener">
+            <span class="cat">Serving · Batching</span>
+            <h4>Prefill vs Decode</h4>
+            <p>Where the time goes on a laptop: prefill is compute-bound, decode is bandwidth-bound (19× slower/token), and what continuous batching buys each architecture.</p>
+          </a>
+        </div>
+      </section>
+
       <!-- ARCHIVE / BLOG -->
       <section class="block" id="archive">
         <div class="head reveal">
           <h2>The archive</h2>
-          <span class="idx">06 / WRITING</span>
+          <span class="idx">07 / ARCHIVE</span>
         </div>
         <div class="notice reveal">
           <span class="tag">HEADS UP</span>
@@ -782,7 +808,7 @@
       <!-- FOOTER -->
       <footer id="contact">
         <div class="head reveal" style="margin-bottom:2.4rem;">
-          <span class="marker">07 / SAY HELLO</span>
+          <span class="marker">08 / SAY HELLO</span>
         </div>
         <div class="foot-grid reveal">
           <div class="big">Let's solve something complex together.</div>
