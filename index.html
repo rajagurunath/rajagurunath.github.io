@@ -18,18 +18,18 @@
 
   <style>
     :root {
-      --ink:    #08090c;
-      --bg:     #0b0c10;
-      --panel:  #111319;
-      --panel2: #15171e;
-      --line:   #23262f;
-      --fog:    #80838f;
-      --silver: #b6b9c4;
-      --bone:   #ece9e1;
-      --ember:  #ff6a2b;   /* GPU thermal glow */
-      --ember2: #ff9152;
-      --steel:  #5fd3c8;   /* cool secondary */
-      --steel2: #8fe7df;
+      --ink:    #fbfaf8;   /* warm white */
+      --bg:     #fbfaf8;
+      --panel:  #ffffff;
+      --panel2: #f4f3ef;
+      --line:   #e7e5e0;
+      --fog:    #7c828e;
+      --silver: #3d424c;
+      --bone:   #16181d;
+      --ember:  #34456b;   /* deep indigo accent */
+      --ember2: #47598a;
+      --steel:  #34456b;
+      --steel2: #2a3858;
       --glow-x: 50%;
       --glow-y: 0%;
       --serif: "Fraunces", Georgia, serif;
@@ -60,7 +60,7 @@
       width: 100%;
       height: 100%;
       z-index: 0;
-      opacity: 0.55;
+      display: none;
     }
 
     .bg-glow {
@@ -69,12 +69,8 @@
       z-index: 0;
       pointer-events: none;
       background:
-        radial-gradient(620px circle at var(--glow-x) var(--glow-y),
-          rgba(255,106,43,0.16), transparent 60%),
-        radial-gradient(900px circle at 85% 8%,
-          rgba(95,211,200,0.08), transparent 55%),
-        radial-gradient(1100px circle at 12% 92%,
-          rgba(255,106,43,0.07), transparent 60%);
+        radial-gradient(800px circle at var(--glow-x) var(--glow-y),
+          color-mix(in srgb, var(--ember) 5%, transparent), transparent 62%);
       transition: background 0.4s ease;
     }
 
@@ -83,8 +79,8 @@
       inset: 0;
       z-index: 1;
       pointer-events: none;
-      opacity: 0.05;
-      mix-blend-mode: overlay;
+      opacity: 0.035;
+      mix-blend-mode: multiply;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
@@ -93,7 +89,7 @@
       inset: 0;
       z-index: 1;
       pointer-events: none;
-      box-shadow: inset 0 0 240px 60px rgba(0,0,0,0.7);
+      display: none;
     }
 
     .shell { position: relative; z-index: 2; }
@@ -112,7 +108,7 @@
       font-size: 0.7rem;
       letter-spacing: 0.04em;
       color: var(--fog);
-      background: linear-gradient(to bottom, rgba(8,9,12,0.92), rgba(8,9,12,0));
+      background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 92%, transparent), transparent);
       backdrop-filter: blur(6px);
     }
     .statusbar .left { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
@@ -121,14 +117,14 @@
     .pulse {
       width: 7px; height: 7px; border-radius: 50%;
       background: var(--steel);
-      box-shadow: 0 0 0 0 rgba(95,211,200,0.6);
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--ember) 55%, transparent);
       animation: pulse 2.4s infinite;
       flex-shrink: 0;
     }
     @keyframes pulse {
-      0%   { box-shadow: 0 0 0 0 rgba(95,211,200,0.55); }
-      70%  { box-shadow: 0 0 0 7px rgba(95,211,200,0); }
-      100% { box-shadow: 0 0 0 0 rgba(95,211,200,0); }
+      0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ember) 50%, transparent); }
+      70%  { box-shadow: 0 0 0 7px color-mix(in srgb, var(--ember) 0%, transparent); }
+      100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ember) 0%, transparent); }
     }
     .statusbar .right { display: flex; gap: 1.1rem; white-space: nowrap; }
     .statusbar .right a { color: var(--fog); text-decoration: none; transition: color 0.2s; }
@@ -190,10 +186,7 @@
     .hero h1 .it {
       font-style: italic;
       font-weight: 340;
-      background: linear-gradient(120deg, var(--ember), var(--ember2) 55%, var(--steel));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--ember);
     }
     .hero .lede {
       font-family: var(--serif);
@@ -221,7 +214,7 @@
       padding: 0.4rem 0.85rem;
       border: 1px solid var(--line);
       border-radius: 100px;
-      background: rgba(255,255,255,0.015);
+      background: rgba(18,21,27,0.02);
       transition: border-color 0.25s, color 0.25s, transform 0.25s;
     }
     .chip:hover { border-color: var(--ember); color: var(--bone); transform: translateY(-2px); }
@@ -243,11 +236,11 @@
     .btn:hover .arr { transform: translateX(4px); }
     .btn-primary {
       background: var(--ember);
-      color: #1a0a02;
+      color: #fdfcfa;
       font-weight: 500;
-      box-shadow: 0 8px 30px -8px rgba(255,106,43,0.55);
+      box-shadow: 0 8px 24px -10px color-mix(in srgb, var(--ember) 45%, transparent);
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px -8px rgba(255,106,43,0.7); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -10px color-mix(in srgb, var(--ember) 55%, transparent); }
     .btn-ghost {
       background: transparent;
       color: var(--silver);
@@ -349,7 +342,7 @@
       position: absolute;
       top: -40%; right: -10%;
       width: 380px; height: 380px;
-      background: radial-gradient(circle, rgba(255,106,43,0.16), transparent 70%);
+      background: radial-gradient(circle, color-mix(in srgb, var(--ember) 12%, transparent), transparent 70%);
       pointer-events: none;
     }
     .now-top { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
@@ -358,7 +351,7 @@
       font-size: 0.66rem;
       letter-spacing: 0.12em;
       color: var(--steel);
-      border: 1px solid rgba(95,211,200,0.35);
+      border: 1px solid color-mix(in srgb, var(--ember) 40%, transparent);
       border-radius: 100px;
       padding: 0.3rem 0.7rem;
       display: inline-flex;
@@ -431,8 +424,8 @@
       align-items: center;
       gap: 1rem;
       flex-wrap: wrap;
-      background: rgba(95,211,200,0.05);
-      border: 1px solid rgba(95,211,200,0.25);
+      background: color-mix(in srgb, var(--ember) 6%, transparent);
+      border: 1px solid color-mix(in srgb, var(--ember) 26%, transparent);
       border-radius: 12px;
       padding: 1.1rem 1.4rem;
       margin-bottom: 2.6rem;
@@ -444,12 +437,12 @@
       font-size: 0.66rem;
       letter-spacing: 0.1em;
       color: var(--steel);
-      border: 1px solid rgba(95,211,200,0.35);
+      border: 1px solid color-mix(in srgb, var(--ember) 40%, transparent);
       padding: 0.25rem 0.6rem;
       border-radius: 100px;
       flex-shrink: 0;
     }
-    .notice a { color: var(--steel2); text-decoration: none; border-bottom: 1px solid rgba(143,231,223,0.4); }
+    .notice a { color: var(--steel2); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--ember) 45%, transparent); }
     .notice a:hover { color: var(--bone); }
 
     .posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
@@ -521,6 +514,185 @@
       letter-spacing: 0.04em;
     }
 
+    /* ---------- Stats strip ---------- */
+    .stats-band { padding: 2.6rem 0 0.4rem; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .stat { background: var(--panel); padding: 1.9rem 1.6rem; transition: background 0.3s; }
+    .stat:hover { background: var(--panel2); }
+    .stat .num {
+      font-family: var(--serif);
+      font-weight: 360;
+      font-size: clamp(2.2rem, 5.2vw, 3.5rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ember);
+    }
+    .stat .num .suf { font-size: 0.55em; }
+    .stat .lbl {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--fog);
+      margin-top: 0.8rem;
+      line-height: 1.4;
+    }
+    @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+    /* ---------- Tech marquee ---------- */
+    .toolkit { padding: 5rem 0 0.4rem; }
+    .toolkit .kick {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ember);
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1.7rem;
+    }
+    .toolkit .kick::before { content: ""; width: 26px; height: 1px; background: var(--ember); opacity: 0.7; }
+    .marquee {
+      position: relative;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    }
+    .marquee + .marquee { margin-top: 0.9rem; }
+    .track {
+      display: inline-flex;
+      gap: 0.9rem;
+      white-space: nowrap;
+      will-change: transform;
+      animation: scrollx 42s linear infinite;
+    }
+    .track.rev { animation-direction: reverse; animation-duration: 52s; }
+    .marquee:hover .track { animation-play-state: paused; }
+    .tk {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--silver);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      background: var(--panel);
+      flex-shrink: 0;
+      transition: color 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .tk:hover { color: var(--bone); border-color: var(--ember); transform: translateY(-2px); }
+    .tk .dot { color: var(--ember); margin-right: 0.5rem; }
+    @keyframes scrollx { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ---------- Hero inference readout (in-character motion) ---------- */
+    .readout {
+      margin-top: 2.4rem;
+      max-width: 42rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+      padding: 0.85rem 1.1rem;
+      font-family: var(--mono);
+    }
+    .ro-label {
+      color: var(--ember);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.6rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .ro-label::before {
+      content: "";
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--ember);
+      animation: roBlink 1.6s infinite;
+    }
+    .ro-line { display: flex; align-items: center; gap: 0.65rem; margin-top: 0.7rem; flex-wrap: wrap; }
+    .ro-stage { color: var(--fog); font-size: 0.66rem; letter-spacing: 0.05em; }
+    .ro-bar {
+      position: relative; width: 58px; height: 6px; border-radius: 3px;
+      background: color-mix(in srgb, var(--ember) 14%, transparent);
+      overflow: hidden; flex-shrink: 0;
+    }
+    .ro-bar i { position: absolute; top: 0; bottom: 0; left: 0; width: 42%; background: var(--ember); border-radius: 3px; animation: roFill 2.6s ease-in-out infinite; }
+    .ro-stream { color: var(--silver); font-size: 0.78rem; white-space: nowrap; overflow: hidden; }
+    .ro-caret { width: 7px; height: 1em; background: var(--ember); display: inline-block; margin-left: 1px; vertical-align: -2px; animation: roCaret 1s step-end infinite; }
+    @keyframes roBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+    @keyframes roFill { 0% { transform: translateX(-115%); } 55% { transform: translateX(165%); } 100% { transform: translateX(165%); } }
+    @keyframes roCaret { 0%,50% { opacity: 1; } 50.01%,100% { opacity: 0; } }
+
+    /* ---------- Blueprint draw-on rules ---------- */
+    .block .head { position: relative; }
+    .block .head::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: -0.85rem;
+      height: 2px; width: 100%;
+      background: var(--ember);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 1.15s cubic-bezier(.2,.7,.2,1) 0.1s;
+    }
+    .block .head.in::after { transform: scaleX(1); }
+    .block .head::before {
+      content: "";
+      position: absolute;
+      left: 0; bottom: -1.05rem;
+      width: 9px; height: 9px; border-radius: 50%;
+      margin-left: -4px;
+      background: var(--ember);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--ember) 18%, transparent);
+      opacity: 0;
+      transition: left 1.15s cubic-bezier(.2,.7,.2,1) 0.1s, opacity 0.3s ease 0.1s;
+    }
+    .block .head.in::before { left: 100%; opacity: 1; }
+
+    /* ---------- Scroll-follow mascot (descends the rail) ---------- */
+    .scrollbot {
+      position: fixed;
+      top: 92px; bottom: 92px;
+      right: clamp(12px, 2.2vw, 30px);
+      width: 44px;
+      z-index: 15;
+      pointer-events: none;
+    }
+    .scrollbot .rail {
+      position: absolute;
+      left: 50%; top: 0; bottom: 0;
+      width: 1px;
+      transform: translateX(-50%);
+      background: linear-gradient(to bottom, transparent, var(--line) 10%, var(--line) 90%, transparent);
+    }
+    .bot-car {
+      position: absolute;
+      left: 50%; top: 0;
+      transform: translateX(-50%);
+      will-change: top;
+    }
+    .bot-car svg { display: block; }
+    @media (max-width: 1120px) { .scrollbot { display: none; } }
+
+    /* ---------- Line-art mascot (playful, in accent) ---------- */
+    .mascot { display: block; margin-bottom: 1.1rem; }
+    .bot { overflow: visible; animation: botBob 3.2s ease-in-out infinite; }
+    @keyframes botBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    .bot-eye { transform-box: fill-box; transform-origin: center; animation: botBlink 3.6s infinite; }
+    @keyframes botBlink { 0%,92%,100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
+    .bot-tip { animation: botPulse 1.8s ease-in-out infinite; }
+    @keyframes botPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .bot-hand { transform-box: fill-box; transform-origin: 4px 12px; animation: botWave 2.6s ease-in-out infinite; }
+    @keyframes botWave { 0%,60%,100% { transform: rotate(0deg); } 70% { transform: rotate(-22deg); } 80% { transform: rotate(8deg); } 90% { transform: rotate(-14deg); } }
+
     /* ---------- Reveal animations ---------- */
     .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.8s cubic-bezier(.2,.7,.2,1), transform 0.8s cubic-bezier(.2,.7,.2,1); }
     .reveal.in { opacity: 1; transform: none; }
@@ -532,6 +704,7 @@
     .hero .d4 { animation-delay: 0.58s; }
     .hero .d5 { animation-delay: 0.72s; }
     .hero .d6 { animation-delay: 0.86s; }
+    .hero .d7 { animation-delay: 1.0s; }
     @keyframes rise { to { opacity: 1; transform: none; } }
 
     @media (prefers-reduced-motion: reduce) {
@@ -547,6 +720,24 @@
   <div class="bg-glow"></div>
   <div class="grain"></div>
   <div class="vignette"></div>
+
+  <!-- Scroll-follow mascot -->
+  <div class="scrollbot" aria-hidden="true">
+    <span class="rail"></span>
+    <span class="bot-car" id="scrollBot">
+      <svg class="bot" viewBox="0 0 48 54" width="40" height="45" fill="none" stroke="var(--ember)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="24" y1="4" x2="24" y2="11"/>
+        <circle class="bot-tip" cx="24" cy="3.5" r="2" fill="var(--ember)" stroke="none"/>
+        <rect x="8" y="11" width="32" height="26" rx="8"/>
+        <circle class="bot-eye" cx="18" cy="23" r="2.6"/>
+        <circle class="bot-eye" cx="30" cy="23" r="2.6"/>
+        <path d="M18.5 30 q5.5 3.5 11 0"/>
+        <line x1="17" y1="37" x2="17" y2="43"/>
+        <line x1="31" y1="37" x2="31" y2="43"/>
+        <path class="bot-hand" d="M40 22 l7 -2"/>
+      </svg>
+    </span>
+  </div>
 
   <!-- Status bar -->
   <div class="statusbar">
@@ -588,8 +779,28 @@
           <a class="btn btn-ghost" href="https://guruengineering.substack.com/" target="_blank" rel="noopener">New writing on Substack <span class="arr">↗</span></a>
         </div>
 
-        <div class="scroll-hint anim d6"><span class="bar"></span> SCROLL</div>
+        <div class="readout anim d6" aria-hidden="true">
+          <span class="ro-label">inference · live</span>
+          <div class="ro-line">
+            <span class="ro-stage">prefill</span>
+            <span class="ro-bar"><i></i></span>
+            <span class="ro-stage">decode</span>
+            <span class="ro-stream" id="roStream"></span><span class="ro-caret"></span>
+          </div>
+        </div>
+
+        <div class="scroll-hint anim d7"><span class="bar"></span> SCROLL</div>
       </header>
+
+      <!-- STATS -->
+      <section class="stats-band" id="stats" aria-label="By the numbers">
+        <div class="stats reveal">
+          <div class="stat"><div class="num" data-to="9" data-suf="+">0</div><div class="lbl">Years across the stack</div></div>
+          <div class="stat"><div class="num" data-to="5" data-suf="B+">0</div><div class="lbl">Records / day at peak</div></div>
+          <div class="stat"><div class="num" data-to="5" data-suf="">0</div><div class="lbl">Teams shipped with</div></div>
+          <div class="stat"><div class="num" data-to="10" data-suf="+">0</div><div class="lbl">Open-source projects</div></div>
+        </div>
+      </section>
 
       <!-- ABOUT -->
       <section class="block" id="about">
@@ -650,6 +861,67 @@
             <h3>Web3 &amp; DePIN</h3>
             <p>Block-reward systems for DePIN GPU suppliers — designing and A/B testing distribution formulas behind a token launch on Solana.</p>
             <div class="tags">DePIN · Solana · token economics</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TOOLKIT -->
+      <section class="toolkit" id="toolkit" aria-label="Tools and technologies I work with">
+        <div class="kick reveal">The toolkit &nbsp;·&nbsp; things I reach for</div>
+        <div class="marquee reveal">
+          <div class="track" aria-hidden="false">
+            <span class="tk"><span class="dot">▹</span>vLLM</span>
+            <span class="tk"><span class="dot">▹</span>Aibrix</span>
+            <span class="tk"><span class="dot">▹</span>LMCache</span>
+            <span class="tk"><span class="dot">▹</span>Ray</span>
+            <span class="tk"><span class="dot">▹</span>PyTorch</span>
+            <span class="tk"><span class="dot">▹</span>Spark</span>
+            <span class="tk"><span class="dot">▹</span>ClickHouse</span>
+            <span class="tk"><span class="dot">▹</span>Iceberg</span>
+            <span class="tk"><span class="dot">▹</span>Trino</span>
+            <span class="tk"><span class="dot">▹</span>Kubernetes</span>
+            <span class="tk"><span class="dot">▹</span>SkyPilot</span>
+            <span class="tk"><span class="dot">▹</span>MLflow</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>vLLM</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>Aibrix</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>LMCache</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>Ray</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>PyTorch</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>Spark</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>ClickHouse</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>Iceberg</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>Trino</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>Kubernetes</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>SkyPilot</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>MLflow</span>
+          </div>
+        </div>
+        <div class="marquee reveal">
+          <div class="track rev">
+            <span class="tk"><span class="dot">▹</span>LangChain</span>
+            <span class="tk"><span class="dot">▹</span>MCP</span>
+            <span class="tk"><span class="dot">▹</span>RAG</span>
+            <span class="tk"><span class="dot">▹</span>XGBoost</span>
+            <span class="tk"><span class="dot">▹</span>Temporal</span>
+            <span class="tk"><span class="dot">▹</span>Delta Lake</span>
+            <span class="tk"><span class="dot">▹</span>Dask</span>
+            <span class="tk"><span class="dot">▹</span>OpenRouter</span>
+            <span class="tk"><span class="dot">▹</span>Airflow</span>
+            <span class="tk"><span class="dot">▹</span>AWS</span>
+            <span class="tk"><span class="dot">▹</span>Solana</span>
+            <span class="tk"><span class="dot">▹</span>Streamlit</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>LangChain</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>MCP</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>RAG</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>XGBoost</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>Temporal</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>Delta Lake</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>Dask</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>OpenRouter</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>Airflow</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>AWS</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>Solana</span>
+            <span class="tk" aria-hidden="true"><span class="dot">▹</span>Streamlit</span>
           </div>
         </div>
       </section>
@@ -850,6 +1122,78 @@
       io.observe(el);
     });
 
+    // ---- Count-up stats ----
+    (function () {
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function paint(el, val, suf) { el.innerHTML = val + (suf ? '<span class="suf">' + suf + '</span>' : ''); }
+      var cio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          var el = en.target, to = +el.getAttribute('data-to'), suf = el.getAttribute('data-suf') || '';
+          cio.unobserve(el);
+          if (reduced) { paint(el, to, suf); return; }
+          var dur = 1400, t0 = null;
+          function tick(ts) {
+            if (t0 === null) t0 = ts;
+            var p = Math.min((ts - t0) / dur, 1);
+            var eased = 1 - Math.pow(1 - p, 3);
+            if (p < 1) { el.textContent = Math.round(eased * to); requestAnimationFrame(tick); }
+            else paint(el, to, suf);
+          }
+          requestAnimationFrame(tick);
+        });
+      }, { threshold: 0.5 });
+      document.querySelectorAll('.num[data-to]').forEach(function (c) { cio.observe(c); });
+    })();
+
+    // ---- Hero inference readout (streaming tokens) ----
+    (function () {
+      var el = document.getElementById('roStream');
+      if (!el) return;
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var phrases = [
+        'the quick brown fox jumps over the lazy dog',
+        'streaming · 142 tok/s · ttft 38ms · batch 8',
+        'kv cache warm · decode bound · 19x slower/tok'
+      ];
+      if (reduced) { el.textContent = phrases[0]; return; }
+      var pi = 0, ci = 0, dir = 1;
+      function tick() {
+        var p = phrases[pi];
+        el.textContent = p.slice(0, ci);
+        if (dir > 0) {
+          ci++;
+          if (ci > p.length) { dir = -1; setTimeout(tick, 1500); return; }
+          setTimeout(tick, 42);
+        } else {
+          ci--;
+          if (ci < 0) { ci = 0; dir = 1; pi = (pi + 1) % phrases.length; setTimeout(tick, 320); return; }
+          setTimeout(tick, 18);
+        }
+      }
+      tick();
+    })();
+
+    // ---- Scroll-follow mascot (descends the rail with scroll progress) ----
+    (function () {
+      var car = document.getElementById('scrollBot');
+      var wrap = car && car.parentElement;
+      if (!car || !wrap) return;
+      var ticking = false;
+      function place() {
+        var max = wrap.clientHeight - car.offsetHeight;
+        var st = window.scrollY || document.documentElement.scrollTop;
+        var doc = document.documentElement.scrollHeight - window.innerHeight;
+        var p = doc > 0 ? Math.min(Math.max(st / doc, 0), 1) : 0;
+        car.style.top = (p * max) + 'px';
+        ticking = false;
+      }
+      function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(place); } }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', place);
+      place();
+    })();
+
     // ---- Compute-node mesh ----
     (function () {
       var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -891,8 +1235,8 @@
             var dx = n.x - m.x, dy = n.y - m.y;
             var d = Math.sqrt(dx * dx + dy * dy);
             if (d < link) {
-              var a = (1 - d / link) * 0.32;
-              ctx.strokeStyle = 'rgba(120,130,150,' + a + ')';
+              var a = (1 - d / link) * 0.34;
+              ctx.strokeStyle = 'rgba(70,82,105,' + a + ')';
               ctx.lineWidth = 0.6 * dpr;
               ctx.beginPath();
               ctx.moveTo(n.x, n.y);
@@ -902,7 +1246,7 @@
           }
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-          ctx.fillStyle = n.ember ? 'rgba(255,106,43,0.9)' : 'rgba(150,160,180,0.7)';
+          ctx.fillStyle = n.ember ? 'rgba(224,82,28,0.85)' : 'rgba(90,102,125,0.5)';
           ctx.fill();
         }
         requestAnimationFrame(step);
